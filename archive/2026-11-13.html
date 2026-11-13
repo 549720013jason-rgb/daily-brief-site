@@ -1,0 +1,1184 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>每日简报 · 2026-11-13</title>
+<style>
+  :root {
+    --bg: #fafaf9;
+    --bg-elevated: #ffffff;
+    --fg: #18181b;
+    --fg-soft: #3f3f46;
+    --muted: #71717a;
+    --rule: #e4e4e7;
+    --card: #f4f4f5;
+    --link: #1d4ed8;
+    --accent: #18181b;
+    --accent-fg: #fafaf9;
+    --rank-high-bg: #fee2e2;
+    --rank-high-fg: #991b1b;
+    --rank-mid-bg: #fef3c7;
+    --rank-mid-fg: #92400e;
+    --rank-low-bg: #e0e7ff;
+    --rank-low-fg: #3730a3;
+    --hero-grad-from: #fafaf9;
+    --hero-grad-to: #f4f4f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a0a0a;
+      --bg-elevated: #18181b;
+      --fg: #fafafa;
+      --fg-soft: #d4d4d8;
+      --muted: #a1a1aa;
+      --rule: #27272a;
+      --card: #18181b;
+      --link: #93c5fd;
+      --accent: #fafafa;
+      --accent-fg: #0a0a0a;
+      --rank-high-bg: rgba(239,68,68,0.18);
+      --rank-high-fg: #fca5a5;
+      --rank-mid-bg: rgba(245,158,11,0.18);
+      --rank-mid-fg: #fcd34d;
+      --rank-low-bg: rgba(99,102,241,0.18);
+      --rank-low-fg: #a5b4fc;
+      --hero-grad-from: #18181b;
+      --hero-grad-to: #0a0a0a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+      "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+  /* ===== header ===== */
+  header.report-header { margin-bottom: 1.25rem; }
+  .eyebrow {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  h1.report-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0.4rem 0 1.2rem;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .archive-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--rule);
+    padding-bottom: 1px;
+  }
+  .archive-link:hover { color: var(--accent); border-bottom-style: solid; }
+  .hero-card {
+    background: linear-gradient(135deg, var(--hero-grad-from) 0%, var(--hero-grad-to) 100%);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    padding: 1rem 1.4rem;
+    border-radius: 0.6rem;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .hero-headline {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0.35rem 0 0;
+    line-height: 1.45;
+    color: var(--fg);
+  }
+  .overview-card {
+    margin: 0.7rem 0 0;
+    padding: 0.7rem 1.1rem;
+    background: var(--card);
+    border-radius: 0.5rem;
+    border-left: 3px solid var(--muted);
+  }
+  .overview-card .eyebrow { display: block; margin-bottom: 0.3rem; }
+  .overview-text {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--fg-soft);
+  }
+
+  /* ===== primary tabs ===== */
+  .tabs {
+    display: flex;
+    gap: 0.25rem;
+    margin: 1.25rem 0 0.75rem;
+    border-bottom: 1px solid var(--rule);
+    flex-wrap: wrap;
+  }
+  .tab {
+    background: none;
+    border: none;
+    padding: 0.7rem 1.1rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    font-family: inherit;
+    transition: color 0.15s;
+  }
+  .tab:hover { color: var(--fg); }
+  .tab.active {
+    color: var(--fg);
+    border-bottom-color: var(--accent);
+  }
+  .tab .count {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-left: 0.4rem;
+    font-weight: 400;
+  }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ===== digest (AI 简报) — compact ===== */
+  .digest-category { margin-bottom: 1.1rem; }
+  .category-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    margin: 0 0 0.55rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .category-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--fg);
+    margin: 0;
+    letter-spacing: 0.05em;
+  }
+  .category-count {
+    font-size: 0.7rem;
+    color: var(--muted);
+    background: var(--card);
+    padding: 0.12rem 0.45rem;
+    border-radius: 999px;
+  }
+  .brief-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  @media (min-width: 720px) {
+    .brief-list { grid-template-columns: 1fr 1fr; }
+  }
+  .brief {
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule);
+    border-radius: 0.5rem;
+    padding: 0.7rem 0.95rem;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .brief:hover {
+    border-color: var(--muted);
+    transform: translateY(-1px);
+  }
+  .brief-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.3rem;
+  }
+  .brief-source {
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+  .brief-rank {
+    font-size: 0.7rem;
+    padding: 0.12rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .brief-rank.high { background: var(--rank-high-bg); color: var(--rank-high-fg); }
+  .brief-rank.mid  { background: var(--rank-mid-bg);  color: var(--rank-mid-fg); }
+  .brief-rank.low  { background: var(--rank-low-bg);  color: var(--rank-low-fg); }
+  .brief-title {
+    font-size: 0.98rem;
+    font-weight: 600;
+    margin: 0 0 0.3rem;
+    line-height: 1.35;
+  }
+  .brief-title a { color: var(--fg); text-decoration: none; }
+  .brief-title a:hover { color: var(--link); text-decoration: underline; }
+  .brief-summary {
+    margin: 0;
+    color: var(--fg-soft);
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  .editor-card {
+    background: var(--card);
+    border-left: 3px solid var(--muted);
+    border-radius: 0.5rem;
+    padding: 1rem 1.3rem;
+    margin: 1.5rem 0 1.2rem;
+  }
+  .editor-card .eyebrow { display: block; margin-bottom: 0.4rem; }
+  .editor-text {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--fg);
+  }
+  .keywords { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 1.5rem; }
+  .keyword {
+    background: var(--card);
+    color: var(--fg-soft);
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+  }
+
+  /* ===== L2 sub-tabs ===== */
+  .sub-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 1rem 0;
+  }
+  .sub-tab {
+    background: var(--card);
+    border: 1px solid transparent;
+    padding: 0.5rem 1.05rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--fg-soft);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .sub-tab:hover { border-color: var(--muted); color: var(--fg); }
+  .sub-tab.active {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  .sub-tab .count {
+    font-size: 0.7rem;
+    opacity: 0.75;
+    margin-left: 0.4rem;
+    font-weight: 400;
+  }
+  .sub-content { display: none; }
+  .sub-content.active { display: block; }
+
+  /* ===== L3 source-tabs ===== */
+  .source-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0.9rem 0 1.3rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .source-tab {
+    background: none;
+    border: 1px solid var(--rule);
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.83rem;
+    color: var(--fg-soft);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .source-tab:hover { border-color: var(--muted); color: var(--fg); }
+  .source-tab.active {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+  .source-tab .count {
+    font-size: 0.7rem;
+    opacity: 0.75;
+    margin-left: 0.3rem;
+  }
+  .source-content { display: none; }
+  .source-content.active { display: block; }
+
+  /* ===== article cards in raw panels ===== */
+  .article {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .article:first-child { padding-top: 0; }
+  .article:last-child { border-bottom: none; }
+  .article-title {
+    font-size: 1rem;
+    margin: 0 0 0.3rem;
+    font-weight: 500;
+    line-height: 1.45;
+  }
+  .article-title a { color: var(--fg); text-decoration: none; }
+  .article-title a:hover { color: var(--link); text-decoration: underline; }
+  .article-meta { color: var(--muted); font-size: 0.76rem; margin: 0 0 0.35rem; }
+  .article-stats {
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin: 0 0 0.4rem;
+    font-feature-settings: "tnum";
+  }
+  .article-excerpt {
+    margin: 0;
+    color: var(--fg-soft);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .article-summary {
+    margin: 0.55rem 0 0;
+    padding: 0.6rem 0.85rem;
+    background: var(--card);
+    border-left: 2px solid var(--link);
+    border-radius: 0.3rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--fg);
+  }
+  .summary-label {
+    display: inline-block;
+    font-size: 0.68rem;
+    color: var(--link);
+    margin-right: 0.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .empty {
+    color: var(--muted);
+    text-align: center;
+    padding: 2rem 0;
+    font-size: 0.9rem;
+  }
+
+  /* ===== trading panel ===== */
+  .crypto-widgets {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.55rem;
+    margin: 0.4rem 0 1.2rem;
+  }
+  @media (min-width: 720px) {
+    .crypto-widgets { grid-template-columns: repeat(4, 1fr); }
+  }
+  .crypto-widget {
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule);
+    border-radius: 0.5rem;
+    padding: 0.7rem 0.85rem;
+    text-align: center;
+  }
+  .widget-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+  }
+  .widget-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--fg);
+    line-height: 1.1;
+  }
+  .widget-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+  .widget-sub.positive { color: #16a34a; }
+  .widget-sub.negative { color: #dc2626; }
+  @media (prefers-color-scheme: dark) {
+    .widget-sub.positive { color: #4ade80; }
+    .widget-sub.negative { color: #fca5a5; }
+  }
+  .crypto-widget.fg-fear-extreme { border-left: 4px solid #b91c1c; }
+  .crypto-widget.fg-fear-extreme .widget-value { color: #b91c1c; }
+  .crypto-widget.fg-fear { border-left: 4px solid #d97706; }
+  .crypto-widget.fg-fear .widget-value { color: #d97706; }
+  .crypto-widget.fg-neutral { border-left: 4px solid var(--muted); }
+  .crypto-widget.fg-greed { border-left: 4px solid #65a30d; }
+  .crypto-widget.fg-greed .widget-value { color: #65a30d; }
+  .crypto-widget.fg-greed-extreme { border-left: 4px solid #16a34a; }
+  .crypto-widget.fg-greed-extreme .widget-value { color: #16a34a; }
+  @media (prefers-color-scheme: dark) {
+    .crypto-widget.fg-fear-extreme .widget-value,
+    .crypto-widget.fg-fear .widget-value { color: #fca5a5; }
+    .crypto-widget.fg-greed .widget-value,
+    .crypto-widget.fg-greed-extreme .widget-value { color: #4ade80; }
+  }
+
+  .trading-overview-card {
+    margin: 0 0 1.5rem;
+    padding: 1rem 1.3rem;
+    background: var(--card);
+    border-radius: 0.5rem;
+    border-left: 3px solid var(--accent);
+  }
+  .trading-overview-card .eyebrow { display: block; margin-bottom: 0.4rem; }
+  .trading-overview-text { font-size: 0.92rem; line-height: 1.75; color: var(--fg-soft); margin: 0; }
+
+  .trading-section-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+    color: var(--fg);
+    letter-spacing: 0.05em;
+  }
+
+  /* picks (Sonnet's watchlist) */
+  .trading-picks {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+  @media (min-width: 720px) {
+    .trading-picks { grid-template-columns: 1fr 1fr; }
+  }
+  .trading-pick {
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--muted);
+    border-radius: 0.5rem;
+    padding: 0.8rem 1rem;
+  }
+  .trading-pick.stance-bull { border-left-color: #16a34a; }
+  .trading-pick.stance-bear { border-left-color: #dc2626; }
+  .trading-pick.stance-neutral { border-left-color: var(--muted); }
+  .pick-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.45rem;
+  }
+  .pick-symbol-block {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .pick-symbol { font-weight: 700; font-size: 1rem; color: var(--fg); }
+  .pick-name { color: var(--muted); font-size: 0.82rem; }
+  .pick-stance {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .pick-stance-bull { background: rgba(22,163,74,0.12); color: #16a34a; }
+  .pick-stance-bear { background: rgba(220,38,38,0.12); color: #dc2626; }
+  .pick-stance-neutral { background: var(--card); color: var(--muted); }
+  .pick-rationale { margin: 0; font-size: 0.88rem; line-height: 1.65; color: var(--fg-soft); }
+
+  /* asset-group tabs */
+  .trading-group-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.6rem 0 1.2rem;
+  }
+  .trading-group-tab {
+    background: var(--card);
+    border: 1px solid transparent;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--fg-soft);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .trading-group-tab:hover { border-color: var(--muted); color: var(--fg); }
+  .trading-group-tab.active {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  .trading-group-tab .count {
+    font-size: 0.7rem;
+    opacity: 0.75;
+    margin-left: 0.4rem;
+    font-weight: 400;
+  }
+  .trading-group-content { display: none; }
+  .trading-group-content.active { display: block; }
+
+  /* ticker cards */
+  .ticker-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule);
+    border-radius: 0.55rem;
+    padding: 0.85rem 1.1rem;
+    margin-bottom: 0.7rem;
+  }
+  .ticker-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.65rem;
+  }
+  .ticker-id { min-width: 0; }
+  .ticker-symbol { margin: 0; font-size: 1rem; font-weight: 700; font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; }
+  .ticker-name { margin: 0.15rem 0 0; font-size: 0.82rem; color: var(--muted); }
+  .ticker-price-block { text-align: right; flex-shrink: 0; }
+  .ticker-price { display: block; font-size: 1.05rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .ticker-pct { display: inline-block; font-size: 0.82rem; font-weight: 500; margin-top: 0.15rem; font-variant-numeric: tabular-nums; }
+  .ticker-pct.positive, .positive { color: #16a34a; }
+  .ticker-pct.negative, .negative { color: #dc2626; }
+
+  .ticker-indicators {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.35rem 0.9rem;
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--fg-soft);
+  }
+  @media (min-width: 720px) {
+    .ticker-indicators { grid-template-columns: repeat(3, 1fr); }
+  }
+  .ticker-indicators > div { display: flex; gap: 0.4rem; align-items: baseline; min-width: 0; }
+  .ticker-indicators dt { color: var(--muted); font-size: 0.74rem; margin: 0; white-space: nowrap; }
+  .ticker-indicators dd { margin: 0; font-variant-numeric: tabular-nums; font-weight: 500; color: var(--fg); }
+  .trend-bullish { color: #16a34a; }
+  .trend-bearish { color: #dc2626; }
+  .trend-neutral { color: var(--muted); }
+  .rsi-overbought { color: #d97706; }
+  .rsi-oversold { color: #2563eb; }
+
+  .ticker-signals {
+    margin-top: 0.65rem;
+    padding-top: 0.55rem;
+    border-top: 1px dashed var(--rule);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .signal-pill {
+    font-size: 0.72rem;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  .signal-pill.tone-bull { background: rgba(22,163,74,0.13); color: #166534; }
+  .signal-pill.tone-bear { background: rgba(220,38,38,0.13); color: #991b1b; }
+  .signal-pill.tone-caution { background: rgba(217,119,6,0.15); color: #92400e; }
+  @media (prefers-color-scheme: dark) {
+    .signal-pill.tone-bull { color: #4ade80; }
+    .signal-pill.tone-bear { color: #fca5a5; }
+    .signal-pill.tone-caution { color: #fcd34d; }
+    .trend-bullish, .positive, .ticker-pct.positive { color: #4ade80; }
+    .trend-bearish, .negative, .ticker-pct.negative { color: #fca5a5; }
+    .rsi-overbought { color: #fcd34d; }
+    .rsi-oversold { color: #93c5fd; }
+    .trading-pick.stance-bull { border-left-color: #4ade80; }
+    .trading-pick.stance-bear { border-left-color: #fca5a5; }
+    .pick-stance-bull { background: rgba(74,222,128,0.15); color: #4ade80; }
+    .pick-stance-bear { background: rgba(252,165,165,0.15); color: #fca5a5; }
+  }
+  .signal-age { opacity: 0.7; font-weight: 400; }
+
+  .trading-risk {
+    margin: 1.5rem 0 0;
+    padding: 0.9rem 1.2rem;
+    background: var(--card);
+    border-radius: 0.45rem;
+    border-left: 3px solid #d97706;
+  }
+  .trading-risk .eyebrow { display: block; margin-bottom: 0.35rem; }
+  .trading-risk p { margin: 0; font-size: 0.82rem; line-height: 1.65; color: var(--fg-soft); }
+
+  footer {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--rule);
+    padding-top: 1.1rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+</style>
+</head>
+<body>
+<main>
+  <header class="report-header">
+    <span class="eyebrow">每日简报</span>
+    <h1 class="report-title">2026-11-13</h1>
+    
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="tech">技术动态<span class="count">37</span></button>
+    
+    <button class="tab" data-tab="politics">时政观察<span class="count">9</span></button>
+    <button class="tab" data-tab="finance">财经要点<span class="count">12</span></button>
+    <button class="tab" data-tab="community">社区讨论<span class="count">0</span></button>
+  </nav>
+
+  <section class="panel active" data-panel="tech">
+    <nav class="sub-tabs"><button class="sub-tab active" data-sub="github-trending" data-cat="tech">GitHub Trending<span class="count">13</span></button><button class="sub-tab" data-sub="trending-papers" data-cat="tech">热门论文<span class="count">0</span></button><button class="sub-tab" data-sub="x-viral" data-cat="tech">X 推文<span class="count">9</span></button><button class="sub-tab" data-sub="ai-news" data-cat="tech">AI 媒体<span class="count">15</span></button></nav>
+<div class="sub-contents"><div class="sub-content active" data-sub-content="github-trending" data-cat="tech">
+    
+    <div class="source-contents">
+      <div class="source-content active" data-source-content="github-trending" data-sub="github-trending" data-cat="tech">
+    <article class="article">
+  <h3 class="article-title"><a href="https://github.com/GoogleChrome/modern-web-guidance-src" target="_blank" rel="noopener noreferrer">GoogleChrome/modern-web-guidance-src</a></h3>
+  <p class="article-stats">TypeScript · ★ 2,872 · 🍴 194 · 📈 739 stars today</p>
+  
+  <p class="article-excerpt">Keep your coding agent up to date with the latest web best practices</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> Google Chrome 团队维护的现代 Web 最佳实践指南源文件，供 AI 编码代理读取使用。通过让编码代理掌握最新的浏览器特性与规范，避免其生成过时或已废弃的 Web 代码。适合使用 Copilot、Cursor 等代理开发前端项目、又希望产出符合现代标准代码的开发者。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/openai/codex-security" target="_blank" rel="noopener noreferrer">openai/codex-security</a></h3>
+  <p class="article-stats">TypeScript · ★ 12,398 · 🍴 976 · 📈 643 stars today</p>
+  
+  <p class="article-excerpt">OpenAI&#39;s Codex Security CLI and TypeScript SDK for finding, validating, and fixing security vulnerabilities. npm: https://www.npmjs.com/package/@openai/codex-security</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> OpenAI 开源的 Codex Security 工具，提供 CLI 命令行与 TypeScript SDK，用于扫描、验证并修复代码中的安全漏洞。开发者可将其集成到 CI 流程或安全审计环节，借助 Codex 能力发现并自动修补缺陷，适合重视供应链与代码安全、需要自动化漏洞处理的团队。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/nvm-sh/nvm" target="_blank" rel="noopener noreferrer">nvm-sh/nvm</a></h3>
+  <p class="article-stats">Shell · ★ 96,005 · 🍴 10,758 · 📈 63 stars today</p>
+  
+  <p class="article-excerpt">Node Version Manager - POSIX-compliant bash script to manage multiple active node.js versions.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> Node Version Manager，符合 POSIX 规范的 bash 脚本，用于在单台机器上安装和切换多个 Node.js 版本。开发者可在不同项目间快速切换运行时版本，解决依赖对 Node 版本要求不一致的问题。前端、后端及 CI 流水线中使用 Node 的项目几乎都会用到。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/pookjw/HermesEnabler" target="_blank" rel="noopener noreferrer">pookjw/HermesEnabler</a></h3>
+  <p class="article-stats">Objective-C · ★ 1,520 · 🍴 139 · 📈 218 stars today</p>
+  
+  <p class="article-excerpt">Enable Hermès Watch Faces on any Apple Watch devices</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 让任意 Apple Watch 机型都能启用爱马仕（Hermès）专属表盘的实验性项目。通过绕过设备型号限制，使普通 Apple Watch 也可使用这些原本绑定的表盘设计。适合喜欢折腾、想在非爱马仕版本手表上体验官方表盘外观的 Apple Watch 用户。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/we-promise/sure" target="_blank" rel="noopener noreferrer">we-promise/sure</a></h3>
+  <p class="article-stats">Ruby · ★ 13,889 · 🍴 1,037 · 📈 967 stars today</p>
+  
+  <p class="article-excerpt">The personal finance app for everyone (by everyone)</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 面向所有人的开源个人理财应用，由社区共同构建。帮助用户集中记录收支、管理账户与预算，解决商业理财 App 数据不透明、订阅收费的问题。适合注重隐私、希望自托管或参与共建的个人用户与开源爱好者。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/QwenLM/qwen-code" target="_blank" rel="noopener noreferrer">QwenLM/qwen-code</a></h3>
+  <p class="article-stats">TypeScript · ★ 29,787 · 🍴 3,392 · 📈 151 stars today</p>
+  
+  <p class="article-excerpt">An open-source AI coding agent that lives in your terminal.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 阿里通义千问团队开源的终端 AI 编码代理，直接在命令行中与模型协作完成代码理解、生成与修改。无需离开终端即可使用，适合习惯 CLI 工作流、希望本地或低成本接入 AI 辅助编程的开发者。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/ashhart/TensorFold" target="_blank" rel="noopener noreferrer">ashhart/TensorFold</a></h3>
+  <p class="article-stats">Zig · ★ 1,928 · 🍴 391 · 📈 54 stars today</p>
+  
+  <p class="article-excerpt">LLM Inference Engine for Metal, CUDA and Vulkan.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 面向 Metal、CUDA 与 Vulkan 的 LLM 推理引擎，用统一实现覆盖苹果、英伟达及跨平台 GPU 后端。目标是让大模型推理在不同硬件上都能高效运行，便于在消费级显卡、Mac 及移动端部署推理服务的开发者使用。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/nodejs/node" target="_blank" rel="noopener noreferrer">nodejs/node</a></h3>
+  <p class="article-stats">JavaScript · ★ 123,592 · 🍴 38,054 · 📈 62 stars today</p>
+  
+  <p class="article-excerpt">Node.js JavaScript runtime ✨🐢🚀✨</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> Node.js 官方 JavaScript 运行时仓库，基于 V8 引擎，使 JS 可脱离浏览器在服务端运行。提供事件驱动、非阻塞 I/O 的异步模型与 npm 生态支撑，被广泛用于构建 Web 服务、CLI 工具和构建脚本，是前端工程化与全栈开发的基础设施。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/addyosmani/agent-skills" target="_blank" rel="noopener noreferrer">addyosmani/agent-skills</a></h3>
+  <p class="article-stats">JavaScript · ★ 116,655 · 🍴 12,209 · 📈 816 stars today</p>
+  
+  <p class="article-excerpt">Production-grade engineering skills for AI coding agents.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 为 AI 编码代理提供的生产级工程技能集合，将软件工程中的规范与实践沉淀为可被代理调用的技能。帮助编码代理在真实项目中遵循更好的架构与质量标准，适合希望提升 AI 辅助开发可靠性的团队与个人工程师。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/meta/astryx" target="_blank" rel="noopener noreferrer">meta/astryx</a></h3>
+  <p class="article-stats">TypeScript · ★ 26,494 · 🍴 2,055 · 📈 1,830 stars today</p>
+  
+  <p class="article-excerpt">An open source design system that&#39;s fully customizable and agent ready</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> Meta 开源的设计系统，可完全定制并适配 AI 代理使用。为构建一致 UI 提供组件与设计规范，同时让编码代理能理解并调用这些组件，适合需要统一设计语言、又希望借助代理加速前端开发的团队。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/CopilotKit/OpenBot" target="_blank" rel="noopener noreferrer">CopilotKit/OpenBot</a></h3>
+  <p class="article-stats">TypeScript · ★ 11,581 · 🍴 1,430 · 📈 298 stars today</p>
+  
+  <p class="article-excerpt">Open-source AI coworkers that each get a computer of their own: a browser, files and tools, with every action decided before it happens and recorded after. Bring any AG-UI agent.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 基于 CopilotKit 的开源 AI 同事项目，每个代理拥有独立的浏览器、文件与工具环境，所有动作在执行前先决策、执行后留记录。支持接入任意 AG-UI 代理，适合想构建可审计、可复现自动化工作流的企业与开发者。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/Alishahryar1/free-claude-code" target="_blank" rel="noopener noreferrer">Alishahryar1/free-claude-code</a></h3>
+  <p class="article-stats">Python · ★ 69,268 · 🍴 10,755 · 📈 415 stars today</p>
+  
+  <p class="article-excerpt">Use Claude Code, Codex, Antigravity, VSCode, Pi, and OpenCode (and 6 other harnesses) for free (1.3B+ free tokens) from your terminal, app, IDE, or phone, and now from the browser with native browser sessions (multi-harness + multi-model) like OpenClaw (voice supported + ToS friendly)</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 让开发者在终端、应用、IDE、手机乃至浏览器中免费使用 Claude Code、Codex、OpenCode 等十余种编码代理的聚合工具，宣称提供超过 13 亿免费 token。适合想低成本体验多种 AI 编程工具、又不想逐个订阅的用户。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener noreferrer">ggml-org/llama.cpp</a></h3>
+  <p class="article-stats">C++ · ★ 134,539 · 🍴 25,507 · 📈 176 stars today</p>
+  
+  <p class="article-excerpt">LLM inference in C/C++</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 用 C/C++ 实现的大模型推理引擎，基于 ggml 张量库，支持本地 CPU 与多种 GPU 后端及量化格式。让 Llama 等模型可在笔记本、树莓派等设备上高效离线运行，是本地部署与端侧推理场景的核心基础设施。</p>
+</article>
+  </div>
+    </div>
+  </div>
+<div class="sub-content" data-sub-content="trending-papers" data-cat="tech">
+    
+    <div class="source-contents">
+      <div class="source-content active" data-source-content="huggingface-papers" data-sub="trending-papers" data-cat="tech">
+    <p class="empty">该源今日无内容。</p>
+  </div>
+    </div>
+  </div>
+<div class="sub-content" data-sub-content="x-viral" data-cat="tech">
+    
+    <div class="source-contents">
+      <div class="source-content active" data-source-content="attentionvc-ai" data-sub="x-viral" data-cat="tech">
+    <article class="article">
+  <h3 class="article-title"><a href="https://x.com/NicholasDulait/status/2120063043614716174" target="_blank" rel="noopener noreferrer">How to use Claude Fable 5.2 for SEO so well it feels illegal</a></h3>
+  <p class="article-stats">@NicholasDulait · 5.6K 粉丝 · 575.6K 阅 · 568 赞 · 68 转</p>
+  <p class="article-meta">11/10 15:56</p>
+  <p class="article-excerpt">FABLE 5.2 CAME OUT YESTERDAY AND THIS IS THE WHOLE SEO SETUP, FREE. SO DON&#39;T SCROLL PAST THIS ONE... Anthropic shipped Fable 5.2 on November 9 at $8 per million input tokens, down from $10 for Fable</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 博主分享 Claude Fable 5.2 用于 SEO 的整套免费配置，称 Fable 5.2 于 11 月 9 日发布，输入 token 价从每百万 10 美元降至 8 美元，借降价做 SEO 工作流。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://x.com/omooretweets/status/2120554019177611668" target="_blank" rel="noopener noreferrer">Welcome to the B2A Economy</a></h3>
+  <p class="article-stats">@omooretweets · 155.3K 粉丝 · 161.0K 阅 · 509 赞 · 60 转</p>
+  <p class="article-meta">11/12 00:27</p>
+  <p class="article-excerpt">The primary users of the Internet are no longer human. They’re AI agents. Agents now make up the majority of web traffic, write more than half of new articles published online, and generate most of</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 博主提出「B2A 经济」概念，指出互联网主要用户已从人类变为 AI agent：agent 占网络流量多数、撰写过半新文章，讨论商业模式需转向面向 agent。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://x.com/FDavidsonT/status/2120214953349263473" target="_blank" rel="noopener noreferrer">OpenAI Acquires Odessia</a></h3>
+  <p class="article-stats">@FDavidsonT · 7.1K 粉丝 · 80.8K 阅 · 563 赞 · 16 转</p>
+  <p class="article-meta">11/11 02:00</p>
+  <p class="article-excerpt">I’m thrilled to announce that Odessia was acquired by OpenAI, and that I will be joining the team to focus on the future of travel. I founded Odessia less than a year ago with the goal to ship the</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 博主宣布自己创立的旅行产品 Odessia 被 OpenAI 收购，本人加入 OpenAI 团队专注旅行方向；公司成立不到一年。属产品收购与人事变动消息。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://x.com/TheoAGI/status/2120163220312699025" target="_blank" rel="noopener noreferrer">The only SEO/GEO article you need, send it to your AI</a></h3>
+  <p class="article-stats">@TheoAGI · 5.7K 粉丝 · 60.5K 阅 · 522 赞 · 38 转</p>
+  <p class="article-meta">11/10 22:34</p>
+  <p class="article-excerpt">I had Claude read 66 SEO/GEO articles, 48 skills and 14 GitHub repos. Here&#39;s the only playbook you need. Short on time? There&#39;s a prompt at the end. Paste it into your AI with this article and let it</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 博主让 Claude 读取 66 篇 SEO/GEO 文章、48 项技能和 14 个 GitHub 仓库，提炼出一份 SEO/GEO 实操 playbook，文末附可直接粘贴给 AI 的 prompt。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://x.com/GoogleAIStudio/status/2120589299037147177" target="_blank" rel="noopener noreferrer">Gemini Decisions API: Fast, calibrated multimodal decisions</a></h3>
+  <p class="article-stats">@GoogleAIStudio · 215.6K 粉丝 · 43.2K 阅 · 506 赞 · 34 转</p>
+  <p class="article-meta">11/12 02:47</p>
+  <p class="article-excerpt">Introducing the Gemini Decisions API, powered by Gemini Decision 1 model. Evaluate up to 1,000 yes/no, choice, and rubric-scoring questions in a fast, single pass across text, images, audio, video,</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> Google AI Studio 发布 Gemini Decisions API，基于 Gemini Decision 1 模型，单次调用可评估最多 1000 个是/否、选项和评分标准类问题，覆盖文本、图像、音频、视频。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://x.com/nizzyabi/status/2120194267066863738" target="_blank" rel="noopener noreferrer">I reverse-engineered Instinct. Here&#39;s the whole machine</a></h3>
+  <p class="article-stats">@nizzyabi · 22.1K 粉丝 · 43.1K 阅 · 526 赞 · 24 转</p>
+  <p class="article-meta">11/11 00:37</p>
+  <p class="article-excerpt">On October 12 I needed dental insurance. I assumed that meant a phone call, so I texted Instinct to ask who I should call. My question turned out to be wrong, and it told me so in under a minute.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 博主从一次找牙科保险的短信体验出发，逆向拆解 Instinct 的产品机制，记录它如何不到一分钟就指出用户问题本身有误，属案例分析式拆解。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://x.com/alphamorpheus/status/2120329753282371665" target="_blank" rel="noopener noreferrer">What happens when you give LLMs a digital nervous system and let evolution begin?</a></h3>
+  <p class="article-stats">@alphamorpheus · 997 粉丝 · 38.8K 阅 · 501 赞</p>
+  <p class="article-meta">11/11 09:36</p>
+  <p class="article-excerpt">Most artificial intelligence systems are designed to become better at a particular task. They recognize patterns, generate answers, predict outcomes, or optimize decisions. Their capabilities can be</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 博主对比现有 AI 多为单任务优化，提出给 LLM 装上「数字神经系统」并引入进化机制，让其能力可自主演化，属概念性探讨而非具体工具教程。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://x.com/GoogleAIStudio/status/2120216895874117934" target="_blank" rel="noopener noreferrer">Gemini 4 Carbon: Developer Guide</a></h3>
+  <p class="article-stats">@GoogleAIStudio · 215.6K 粉丝 · 28.0K 阅 · 502 赞 · 54 转</p>
+  <p class="article-meta">11/11 02:07</p>
+  <p class="article-excerpt">Gemini 4 Carbon is our strongest model, with frontier performance in cybersecurity and long-horizon capabilities across complex software engineering, enterprise knowledge work, and scientific</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> Google AI Studio 发布 Gemini 4 Carbon 开发者指南，称其为最强模型，在网络安全、长周期复杂软件工程、企业知识工作和科研等场景达前沿水平。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://x.com/ActionModelAI/status/2120164293417001337" target="_blank" rel="noopener noreferrer">AI&#39;s Most Powerful People Are Fighting Over the Future. Nobody Asked You.</a></h3>
+  <p class="article-stats">@ActionModelAI · 56.0K 粉丝 · 14.9K 阅 · 500 赞 · 415 转</p>
+  <p class="article-meta">11/10 22:38</p>
+  <p class="article-excerpt">Lawsuits, memes, public arguments and trillion-dollar ambitions. AI&#39;s biggest names are fighting over control, but where are the people who helped build it? The world&#39;s most powerful AI leaders have</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 博主借诉讼、梗图和万亿野心等事件，梳理 AI 巨头围绕控制权的公开争斗，追问参与构建的普通人在其中缺席，属观点评论而非工具教程。</p>
+</article>
+  </div>
+    </div>
+  </div>
+<div class="sub-content" data-sub-content="ai-news" data-cat="tech">
+    
+    <div class="source-contents">
+      <div class="source-content active" data-source-content="_merged" data-sub="ai-news" data-cat="tech">
+    <article class="article">
+  <h3 class="article-title"><a href="https://www.technologyreview.com/2026/11/12/1148483/nvidia-chip-tracking/" target="_blank" rel="noopener noreferrer">Nvidia privately confirmed it could track chips to fight smuggling, even as industry publicly questioned feasibility</a></h3>
+  
+  <p class="article-meta">MIT Tech Review AI · 11/13 04:16</p>
+  <p class="article-excerpt">Representatives from Nvidia told Illinois representative Bill Foster that it would be technically possible to implement the anti-smuggling measures called for in the Chip Security Act, Foster told MIT Technology Review in an interview on Thursday, even while an industry group claimed they were “pote</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 英伟达代表向伊利诺伊州众议员Bill Foster表示，《芯片安全法》所要求的防走私追踪措施在技术上可实现；而同日某行业团体仍公开质疑该方案的可行性。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://openai.com/business/customer-stories/amplitude" target="_blank" rel="noopener noreferrer">How Amplitude ships product improvements in 1–2 days with OpenAI</a></h3>
+  
+  <p class="article-meta">OpenAI News · 11/13 04:00</p>
+  <p class="article-excerpt">Built primarily on OpenAI models, Amplitude’s proactive product agent, Wave, identifies what to build, helps teams ship changes with coding agents, and measures the impact.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> Amplitude基于OpenAI模型构建产品智能体Wave，可识别开发需求、借助编码代理协助团队交付改动并衡量效果，使产品改进周期缩短至1至2天。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://deepmind.google/blog/introducing-gemini-4-hydrogen/" target="_blank" rel="noopener noreferrer">Introducing Gemini 4 Hydrogen</a></h3>
+  
+  <p class="article-meta">DeepMind Blog · 11/13 02:00</p>
+  
+  <p class="article-summary"><span class="summary-label">中文介绍</span> DeepMind发布Gemini 4 Hydrogen模型，具体能力与参数等细节未在标题与摘要中披露。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://openai.com/business/customer-stories/gondola" target="_blank" rel="noopener noreferrer">Gondola doubles revenue as its team builds more with Codex</a></h3>
+  
+  <p class="article-meta">OpenAI News · 11/12 20:00</p>
+  <p class="article-excerpt">Gondola helps creatives get credit and get hired, with Codex raising its lead engineer’s output by 50% and ChatGPT simplifying daily work.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> Gondola借助Codex与ChatGPT，将首席工程师产出提升50%，公司收入实现翻倍，用于帮助创意工作者获得署名与工作机会。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://openai.com/business/customer-stories/holidays-extras-codex" target="_blank" rel="noopener noreferrer">Holiday Extras is rethinking what it can build with Codex</a></h3>
+  
+  <p class="article-meta">OpenAI News · 11/12 17:30</p>
+  <p class="article-excerpt">With Codex, Holiday Extras is turning customer expertise into better apps, higher booking conversion and new possibilities for growth.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> Holiday Extras借助Codex把客户经验转化为更好的应用，提升预订转化率，并拓展增长空间。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://latent.space/p/ainews-d-day-decision-models-day/" target="_blank" rel="noopener noreferrer">[AINews] D-Day (Decision Models Day)</a></h3>
+  
+  <p class="article-meta">Latent Space · 11/12 13:26</p>
+  <p class="article-excerpt">November 11, 2026 — Google enters the decision model market. At AI Engineer, Cloudflare showed which parts of a build failure a classifier could handle. TypeSafe AI showed off their production customers.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 2026年11月11日，谷歌进入决策模型市场；在AI Engineer大会上，Cloudflare展示分类器可处理构建失败中的部分环节，TypeSafe AI介绍了其生产客户。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://latent.space/p/jev-revolution/" target="_blank" rel="noopener noreferrer">The Jev Revolution: What Engineers Are Already Building with System One Models</a></h3>
+  
+  <p class="article-meta">Latent Space · 11/12 13:08</p>
+  <p class="article-excerpt">At AI Engineer Code Summit, lead Jev creator Diogo Almeida called on developers to automate everything. Also, Glean and others showed how they’re using Jev.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 在AI Engineer Code Summit上，Jev主要创作者Diogo Almeida呼吁开发者自动化一切；Glean等公司展示了Jev的使用方式。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://openai.com/index/children-first-declaration" target="_blank" rel="noopener noreferrer">Supporting research on AI and children’s safety</a></h3>
+  
+  <p class="article-meta">OpenAI News · 11/12 08:00</p>
+  <p class="article-excerpt">OpenAI commits $2 million to research on AI and children’s safety. The work supports shared tools to measure risks and opportunities for young people.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> OpenAI承诺投入200万美元用于AI与儿童安全相关研究，支持衡量未成年人面临风险与机会的共享工具。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://openai.com/index/gilbert-tobin-sam-nickless" target="_blank" rel="noopener noreferrer">Gilbert + Tobin rethinks the business of law with AI</a></h3>
+  
+  <p class="article-meta">OpenAI News · 11/12 08:00</p>
+  <p class="article-excerpt">A conversation with Sam Nickless, Partner and Chief Executive Officer at Gilbert + Tobin.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 澳大利亚律所Gilbert + Tobin合伙人兼首席执行官Sam Nickless谈该所如何用AI重塑法律业务。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://tldr.tech/ai/2026-11-12" target="_blank" rel="noopener noreferrer">Grok Bot 1.0 🤖, AlphaGenome 2 🧬, Gemini Decisions 🧠</a></h3>
+  
+  <p class="article-meta">TLDR AI · 11/12 08:00</p>
+  
+  <p class="article-summary"><span class="summary-label">中文介绍</span> TLDR AI当日要点包括Grok Bot 1.0、AlphaGenome 2及Gemini决策模型等，具体内容摘要未提供。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/" target="_blank" rel="noopener noreferrer">AlphaGenome 2: Deciphering how cells read DNA to better understand disease</a></h3>
+  
+  <p class="article-meta">DeepMind Blog · 11/11 23:00</p>
+  <p class="article-excerpt">Predicting how DNA sequences and their variations impact specific human cell types and disease.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> DeepMind发布AlphaGenome 2，用于预测DNA序列及其变异如何影响特定人体细胞类型与疾病。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://latent.space/p/ainews-mercor-750m-series-d-at-20b-valuation-3b-run-rate/" target="_blank" rel="noopener noreferrer">[AINews] Mercor $750m Series D at $20B valuation, $3B run rate</a></h3>
+  
+  <p class="article-meta">Latent Space · 11/11 17:34</p>
+  <p class="article-excerpt">November 10, 2026 — Google GA&#39;s Gemini 4 Carbon.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 2026年11月10日，Mercor完成7.5亿美元D轮融资，估值200亿美元，年化收入达30亿美元；同日谷歌Gemini 4 Carbon正式可用。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://openai.com/index/chatgpt-plus-for-veterans" target="_blank" rel="noopener noreferrer">ChatGPT Plus for veterans and servicemembers</a></h3>
+  
+  <p class="article-meta">OpenAI News · 11/11 16:00</p>
+  <p class="article-excerpt">More than 20,000 veterans and transitioning service members have claimed a free year of ChatGPT Plus. See how they use it to prepare for civilian careers.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 已有超过2万名退伍军人及过渡期服役人员领取免费一年ChatGPT Plus，用于为转入平民职业做准备。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://latent.space/p/codex-work/" target="_blank" rel="noopener noreferrer">AI Engineer Code Summit: OpenAI on New Ways of Working With Codex</a></h3>
+  
+  <p class="article-meta">Latent Space · 11/11 12:49</p>
+  <p class="article-excerpt">On the first day of AIE Code Summit, OpenAI showed how developers can steer Codex by voice, hand off work to the cloud, and make use of dots.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> 在AI Engineer Code Summit首日，OpenAI展示开发者可用语音操控Codex、将任务移交云端以及使用dots等方式。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://openai.com/index/jiostar-vijay-seshadri" target="_blank" rel="noopener noreferrer">JioStar’s chief architect on AI discovery at 500M-user scale</a></h3>
+  
+  <p class="article-meta">OpenAI News · 11/11 08:00</p>
+  <p class="article-excerpt">JioStar’s Vijay Seshadri explains AI discovery at 500M-user scale. Read his lessons on evals, guardrails, and taking AI into production.</p>
+  <p class="article-summary"><span class="summary-label">中文介绍</span> JioStar首席架构师Vijay Seshadri介绍在5亿用户规模下推进AI发现的经验，涉及评估、护栏与生产落地。</p>
+</article>
+  </div>
+    </div>
+  </div></div>
+  </section>
+  
+  <section class="panel" data-panel="politics">
+    <div class="sub-content active" data-sub-content="world" data-cat="politics">
+    
+    <div class="source-contents">
+      <div class="source-content active" data-source-content="_merged" data-sub="world" data-cat="politics">
+    <article class="article">
+  <h3 class="article-title"><a href="https://www.npr.org/2026/11/12/nx-s1-6038809/us-envoys-meet-putin-russia-ukraine-war-talks" target="_blank" rel="noopener noreferrer">U.S. envoys meet with Putin in the Kremlin after Ukraine talks in Abu Dhabi</a></h3>
+  
+  <p class="article-meta">NPR World · 11/12 23:26</p>
+  <p class="article-excerpt">Jared Kushner and Steve Witkoff went to the Kremlin to brief Russian President Vladimir Putin and are scheduled to fly later to Ireland for talks with Ukrainian President Volodymyr Zelenskyy.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 美国特使库什纳与维特科夫在阿布扎比举行的乌克兰问题会谈后前往克里姆林宫，向俄罗斯总统普京通报情况，随后将飞往爱尔兰与乌克兰总统泽连斯基会谈。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.npr.org/2026/11/12/g-s1-153190/indonesias-vp-resigns-as-his-eligibility-and-academic-credentials-are-questioned" target="_blank" rel="noopener noreferrer">Indonesia&#39;s VP resigns as his eligibility and academic credentials are questioned</a></h3>
+  
+  <p class="article-meta">NPR World · 11/12 22:22</p>
+  <p class="article-excerpt">Raka is the son of former President Joko Widodo. The Constitutional Court and the Supreme Court ruled last month that the documents that Raka submitted regarding his overseas education didn&#39;t meet election requirements.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 印尼副总统拉卡（前总统佐科·维多多的儿子）宣布辞职。此前宪法法院与最高法院上月裁定，其提交的海外学历文件不符合选举资格要求。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.npr.org/2026/11/12/g-s1-153171/up-first-newsletter-scott-colom-trump-democrats-ukraine-russia" target="_blank" rel="noopener noreferrer">Colom wins Mississippi Senate race. And, White House warns Dems over future probes</a></h3>
+  
+  <p class="article-meta">NPR World · 11/12 20:15</p>
+  <p class="article-excerpt">After more than a week of counting ballots, Scott Colom has narrowly won the Mississippi Senate seat. And, the White House has sent a letter warning Democrats who plan to investigate the administration.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 经过一周多计票，斯科特·科洛姆以微弱优势赢得密西西比州参议院席位。白宫致信警告计划调查本届政府的民主党人。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.npr.org/2026/11/12/nx-s1-6037759/ukraine-ex-foreign-minister" target="_blank" rel="noopener noreferrer">Former Ukrainian foreign minister discusses how to bridge gaps between Ukraine, Russia</a></h3>
+  
+  <p class="article-meta">NPR World · 11/12 17:40</p>
+  <p class="article-excerpt">NPR&#39;s A Martinez asks Ukraine&#39;s former Foreign Minister Dmytro Kuleba for his proposals to close gaps in talks between Russia, Ukraine and Europe.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 乌克兰前外长库列巴接受NPR采访，就如何弥合俄罗斯、乌克兰与欧洲在谈判中的分歧提出建议。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.npr.org/2026/11/12/nx-s1-6037526/former-u-s-ambassador-william-taylor-discusses-the-latest-russia-ukraine-talks" target="_blank" rel="noopener noreferrer">Former U.S. Ambassador William Taylor discusses the latest Russia-Ukraine talks</a></h3>
+  
+  <p class="article-meta">NPR World · 11/12 17:39</p>
+  <p class="article-excerpt">NPR&#39;s A Martinez speaks with former U.S. ambassador to Ukraine, William Taylor, about the ongoing peace talks between the U.S., Russia and Ukraine.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 美国前驻乌克兰大使威廉·泰勒接受NPR采访，评述美、俄、乌三方正在进行的最新和平谈判进展。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.npr.org/2026/11/12/nx-s1-6037558/u-s-officials-set-to-meet-with-putin-zelenskyy-following-abu-dhabi-peace-talks" target="_blank" rel="noopener noreferrer">U.S. officials set to meet with Putin, Zelenskyy following Abu Dhabi peace talks</a></h3>
+  
+  <p class="article-meta">NPR World · 11/12 17:38</p>
+  <p class="article-excerpt">U.S.-mediated talks in Abu Dhabi have wrapped up with an agreement on a Russia-Ukraine prisoner exchange. U.S. negotiators meet with Vladimir Putin on Thursday and Volodymyr Zelenskyy on Friday.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 由美国斡旋的阿布扎比会谈结束，俄乌双方就交换战俘达成一致。美方谈判人员将于周四会见普京、周五会见泽连斯基。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.npr.org/2026/11/12/nx-s1-6026458/drought-threatens-iraqs-marshes-risking-one-of-the-oldest-ways-of-life" target="_blank" rel="noopener noreferrer">Drought threatens Iraq&#39;s marshes, risking one of the oldest ways of life</a></h3>
+  
+  <p class="article-meta">NPR World · 11/12 17:31</p>
+  <p class="article-excerpt">The unique marshes of southern Iraq are beginning to revive after five years of devastating drought. But challenges remain for one of the world&#39;s oldest ways of life.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 伊拉克南部独特湿地经历五年严重干旱后开始复苏，但这一全球最古老生活方式之一仍面临挑战。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.npr.org/2026/11/12/nx-s1-6035686/aid-groups-call-on-israel-to-allow-shelters-in-gaza-amid-a-humanitarian-emergency" target="_blank" rel="noopener noreferrer">Aid groups call on Israel to allow shelters in Gaza amid a humanitarian emergency</a></h3>
+  
+  <p class="article-meta">NPR World · 11/12 17:29</p>
+  <p class="article-excerpt">Winter storms have brought flooding and deadly landslides to thousands living in tents in Gaza. Palestinians have no where to go after years of devasting war.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 冬季风暴给加沙数千名住在帐篷中的人带来洪水和致命山体滑坡。援助组织呼吁以色列允许搭建避难所，当地民众历经多年战争后无处可去。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.npr.org/2026/11/12/nx-s1-6038339/israeli-strike-gaza-hospital" target="_blank" rel="noopener noreferrer">An Israeli strike on a Gaza hospital kills 6 people, including a doctor and a child</a></h3>
+  
+  <p class="article-meta">NPR World · 11/12 17:29</p>
+  <p class="article-excerpt">The victims included a surgeon, and dozens more were injured. Israel said it was targeting a Hamas commander and other militants. The commander was not found among the dead.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 以色列空袭加沙一家医院，造成6人死亡，包括一名外科医生和一名儿童，另有数十人受伤。以方称目标是哈马斯一名指挥官及其他武装人员，但该指挥官不在死者之列。</p>
+</article>
+  </div>
+    </div>
+  </div>
+  </section>
+  <section class="panel" data-panel="finance">
+    <div class="sub-content active" data-sub-content="news" data-cat="finance">
+    
+    <div class="source-contents">
+      <div class="source-content active" data-source-content="_merged" data-sub="news" data-cat="finance">
+    <article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/nikkei-may-rise-as-weak-yen-raises-earnings-hopes-776a8056?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">Stocks Sink in Broad AI Rout Sparked by China&#39;s DeepSeek</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/28 03:26</p>
+  <p class="article-excerpt">U.S. stocks were mostly lower, with the Nasdaq leading declines as makers of AI infrastructure suffered steep falls, many in the double digits. Nvidia was down 16%.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 受中国初创公司DeepSeek冲击，美股普遍下跌，纳斯达克指数领跌，AI基础设施类股大幅下挫，多只个股跌幅达两位数，英伟达下跌16%。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/gold-edges-lower-feds-rate-decision-in-focus-09dbfceb?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">Comex Gold, Silver Settle Lower</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/28 03:01</p>
+  <p class="article-excerpt">Gold settled 1.4% lower, down two of the past three sessions, and silver fell 2.5%, down three of the past four sessions.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> COMEX黄金下跌1.4%，为过去三个交易日中第二次收跌；白银下跌2.5%，为过去四个交易日中第三次收跌，市场关注美联储利率决议。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/deepseek-us-ai-stocks-nvidia-broadcom-6cdfae81?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">DeepSeek Won&#39;t Sink U.S. AI Titans</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/28 02:12</p>
+  <p class="article-excerpt">Panic fueling the selloff of Nvidia, Broadcom and other tech giants is overblown.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 针对DeepSeek引发的英伟达、博通等科技巨头抛售恐慌，报道认为市场反应过度，DeepSeek不会击垮美国AI巨头。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/financial-services-roundup-market-talk-94f52cba?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">Financial Services Roundup: Market Talk</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/28 01:27</p>
+  <p class="article-excerpt">Gain insight on Experian, SoFi Technologies and more in the latest Market Talks covering Financial Services.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 最新金融服务行业市场评论汇总，涵盖益博睿（Experian）、SoFi Technologies等公司的最新动态与分析。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/arabica-coffee-prices-hit-new-high-on-u-s-colombia-tariff-spat-582446fe?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">Arabica Coffee Prices Hit Record on U.S., Colombia Tariff Spat</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/28 01:20</p>
+  <p class="article-excerpt">Arabica coffee prices hit a record level, as traders digested the withdrawal of President Trump’s threats to impose tariffs and economic sanctions on Colombia.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 阿拉比卡咖啡价格创历史新高，交易员消化特朗普撤回对哥伦比亚加征关税和经济制裁威胁的消息。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/safe-haven-currencies-strengthen-amid-fears-over-global-tariffs-9964e17a?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">Swiss franc, Japanese yen Rise as DeepSeek News Boosts Safe Havens</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/27 22:55</p>
+  <p class="article-excerpt">The Yen and Swiss Franc were stronger against the dollar as investors sought safe havens after Chinese start-up DeepSeek’s new AI model hit U.S. tech stocks.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 受DeepSeek消息冲击美国科技股影响，投资者寻求避险，日元和瑞士法郎兑美元走强。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/u-s-natural-gas-futures-fall-on-shifting-weather-forecasts-1ef3e457?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">Natural Gas Falls on Shifting Weather Forecasts</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/27 22:05</p>
+  <p class="article-excerpt">U.S. natural gas futures fell after weekend updates took some of the chill out of early February weather forecasts.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 美国天然气期货下跌，因周末更新的天气预报显示2月初寒潮有所减弱。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/building-products-distributor-qxo-launching-hostile-bid-for-beacon-de024410?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">Building-Products Distributor QXO Launches Hostile Bid for Beacon</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/27 21:28</p>
+  <p class="article-excerpt">QXO is taking its offer directly to shareholders after being rebuffed on several occasions.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 建材分销商QXO在多次被拒后，直接向股东发起对Beacon的敌意收购要约。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/natural-gas-firm-diversified-energy-nears-deal-for-permian-basin-player-4c1c5ff5?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">Natural-Gas Firm Diversified Energy Strikes Deal for Permian Basin Player</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/27 19:57</p>
+  <p class="article-excerpt">Maverick Natural Resources has operations in Texas and Oklahoma.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 天然气公司Diversified Energy即将达成收购二叠纪盆地运营商Maverick Natural Resources的交易，后者在得克萨斯州和俄克拉何马州有业务。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/tax-season-2024-irs-filing-dates-explained-628a8b37?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">What&#39;s New This Tax Season That Can Save You Money</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/27 18:30</p>
+  <p class="article-excerpt">There are some new wrinkles, especially for those who sell things online or bought an EV.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 本纳税季出现一些新变化，尤其利好线上卖家及购买电动汽车的纳税人，可帮助节省开支。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/chinese-investors-with-few-options-turn-to-dividends-ad31dcc4?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">Chinese Investors With Few Options Turn to Dividends</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/27 18:30</p>
+  <p class="article-excerpt">Companies with good payouts are now the hottest bet in China markets.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 在可选投资渠道有限的情况下，中国投资者转向高分红股票，派息良好的公司成为中国市场当前最受追捧的标的。</p>
+</article>
+<article class="article">
+  <h3 class="article-title"><a href="https://www.wsj.com/articles/jgbs-consolidate-supported-by-u-s-treasurys-gains-7edccc7d?mod=rss_markets_main" target="_blank" rel="noopener noreferrer">U.S. Treasury Yields Fall But Direction for Long-End Yields Still Seen Upward</a></h3>
+  
+  <p class="article-meta">WSJ Markets · 01/27 18:02</p>
+  <p class="article-excerpt">The 10-year U.S. Treasury yield fell and ING said the the long end of the Treasury curve will continue trading at higher yields even as Trump hasn’t delivered anything to shock markets so far.</p>
+  <p class="article-summary"><span class="summary-label">中文摘要</span> 美国10年期国债收益率下跌，但ING表示，尽管特朗普迄今未出台冲击市场的举措，长端国债收益率预计仍将维持在较高水平。</p>
+</article>
+  </div>
+    </div>
+  </div>
+  </section>
+  <section class="panel" data-panel="community">
+    <div class="sub-content active" data-sub-content="cn-community" data-cat="tech">
+    <nav class="source-tabs"><button class="source-tab active" data-source="v2ex-hot" data-sub="cn-community" data-cat="tech">V2EX<span class="count">0</span></button><button class="source-tab" data-source="linuxdo" data-sub="cn-community" data-cat="tech">LinuxDo<span class="count">0</span></button></nav>
+    <div class="source-contents">
+      <div class="source-content active" data-source-content="v2ex-hot" data-sub="cn-community" data-cat="tech">
+    <p class="empty">该源今日无内容。</p>
+  </div>
+<div class="source-content" data-source-content="linuxdo" data-sub="cn-community" data-cat="tech">
+    <p class="empty">该源今日无内容。</p>
+  </div>
+    </div>
+  </div>
+  </section>
+
+  <footer>
+    内容均来自原媒体，本站仅作摘要整理与回链。
+  </footer>
+</main>
+<script>
+  document.querySelectorAll('.tabs > .tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = btn.dataset.tab;
+      document.querySelectorAll('.tabs > .tab').forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      document.querySelectorAll('.panel').forEach(function (p) {
+        p.classList.toggle('active', p.dataset.panel === target);
+      });
+    });
+  });
+  // Scope sub-tab / source-tab toggles to the parent .panel so two L1 panels
+  // can share the same data-cat (e.g. tech main + community both data-cat=tech)
+  // without stomping on each other's active state.
+  document.querySelectorAll('.sub-tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var panel = btn.closest('.panel');
+      if (!panel) return;
+      var sub = btn.dataset.sub;
+      panel.querySelectorAll('.sub-tab').forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      panel.querySelectorAll('.sub-content').forEach(function (p) {
+        p.classList.toggle('active', p.dataset.subContent === sub);
+      });
+    });
+  });
+  document.querySelectorAll('.source-tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var subContent = btn.closest('.sub-content');
+      if (!subContent) return;
+      var src = btn.dataset.source;
+      subContent.querySelectorAll('.source-tab').forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      subContent.querySelectorAll('.source-content').forEach(function (p) {
+        p.classList.toggle('active', p.dataset.sourceContent === src);
+      });
+    });
+  });
+  // Trading panel: asset-group sub-tabs (US/crypto/china/commodity)
+  document.querySelectorAll('.trading-group-tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var grp = btn.dataset.group;
+      document.querySelectorAll('.trading-group-tab').forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      document.querySelectorAll('.trading-group-content').forEach(function (p) {
+        p.classList.toggle('active', p.dataset.group === grp);
+      });
+    });
+  });
+</script>
+</body>
+</html>
